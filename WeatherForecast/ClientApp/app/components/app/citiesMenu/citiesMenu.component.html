@@ -1,0 +1,15 @@
+﻿<div class="col-md-offset-1 col-md-3 col-sm-3 hidden-sm hidden-xs">
+        <button [class]="!showDeleteButtons?'editButton':'editButton deleteState animated pulse infinite'" (click)="onShowDeleteButtons()"></button>
+        <ul class="cityesMenu animated">
+            <ng-container *ngFor="let city of cities; trackBy:trackByCity">
+                <li  [class]="city.daysOfWeek!=null? 'animated bounceIn':'animated fadeIn disabled'" >
+                    <button *ngIf="showDeleteButtons&&city.daysOfWeek!=null" class="deleteButton animated pulse infinite"(click)="onDeleteCity(city)">X</button>
+                    <div class="menuButton" (click)="onClick(city)">
+                        <span>{{city.cityName}}, {{city.country}}</span>
+                        <img src="/img/weather/white/{{city.currentDay.icon}}.png" alt="Alternate Text" />
+                        <span class="menuDeg">{{city.currentDay.temp|roundDegree}}<sup>&deg;C</sup></span>
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
+</div>

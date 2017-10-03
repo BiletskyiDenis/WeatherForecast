@@ -1,0 +1,26 @@
+﻿.btn-moreInfo {
+    border-radius: 0 0 50% 50%;
+    position: absolute;
+    border: 0px;
+    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.3);
+    width: 100px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ffb078;
+    color: #fff;
+    -webkit-transition: all 0.2s 0.02s ease;
+    transition: all 0.2s 0.02s ease;
+}
+
+    .btn-moreInfo:focus {
+        outline: none;
+    }
+
+    .btn-moreInfo:hover {
+        background-color: #ffc59c;
+    }
+
+    .btn-moreInfo:active {
+        background-color: #d18855;
+    }

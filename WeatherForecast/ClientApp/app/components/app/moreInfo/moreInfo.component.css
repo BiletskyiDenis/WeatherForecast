@@ -1,0 +1,12 @@
+﻿.moreInfo {
+    margin: 0 auto;
+    margin-top: 25px;
+    padding-top: 10px;
+    width: 500px;
+    border-radius: 3px;
+}
+
+.infoTabs .tab-pane {
+    border: 1px solid #ddd;
+    border-style: none solid solid solid;
+}

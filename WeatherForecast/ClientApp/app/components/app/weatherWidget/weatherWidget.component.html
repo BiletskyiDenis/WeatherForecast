@@ -1,0 +1,89 @@
+﻿<div class="row widgetRow">
+    <div class="animated fadeIn">
+        <div class="widgetMain">
+            <div class="wetherWitget">
+                <div class="cont">
+                    <div class="header">
+                        <span class="hidden-sm hidden-xs">{{selectedCity.cityName}}</span>
+                        <div class="btn-group animated bounceIn hidden-md hidden-lg">
+                            <span class="dropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{selectedCity.cityName}} <span class="caret"></span>
+                            </span>
+                            <ul class="dropdown-menu menu sub" *ngIf="cities[0].cityName!=null">
+                                <ng-container *ngFor="let city of cities" (click)="onClick(city)">
+                                    <li (click)="onClick(city)">
+                                        <span class="menuItem">{{city.cityName}}, {{city.country}}<span class="badge badge-span">{{city.currentDay.temp|roundDegree}}&deg;C</span></span>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group editMenu animated bounceIn hidden-md hidden-lg">
+                            <span class="dropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="/img/edit_m.png" alt="Edit Menu" /><span class="caret"></span>
+                            </span>
+                            <ul class="dropdown-menu sub deleteItem">
+                                <li (click)="onDeleteCity()">
+                                    <span class="menuItem">Delete</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="centerImg">
+                        <img src="/img/weather/white/{{selectedCity.currentDay.icon}}.png" />
+                        <div class=" currentDayDeg">
+                            <span class="currentDeg">
+                                {{selectedCity.currentDay.temp|roundDegree}}<sup>&deg;C</sup>
+                            </span>
+                            <br />
+                            <span>
+                                {{selectedCity.currentDay.dateTime|ddName}} {{selectedCity.currentDay.dateTime|dd}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+
+                    <div class="dayOfWeek currentDay currentDayPresure">
+                        <table class="table-wiget">
+                            <tr>
+                                <td>Pressure</td>
+                                <td>{{selectedCity.currentDay.pressure}}</td>
+                            </tr>
+                            <tr>
+                                <td>Sunrise</td>
+                                <td>{{selectedCity.currentDay.sunrise|hhmm}}</td>
+                            </tr>
+                            <tr>
+                                <td>Sunset</td>
+                                <td>{{selectedCity.currentDay.sunset|hhmm}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <ng-container *ngFor="let day of selectedCity.daysOfWeek; let i=index">
+                        <div class="dayOfWeek" *ngIf="checkDate(selectedCity.currentDay.dateTime, day.dateTime)&& i<7">
+                            <span>
+                                {{day.dateTime|ddName|shortName}}
+                            </span>
+                            <br />
+                            <img src="/img/weather/color/{{day.icon}}.png" width="30" height="30" alt="{{day.icon}}" />
+                            <br />
+                            <span class="temp tempMax">
+                                {{day.temp|roundDegree}}&deg;
+                            </span>
+
+                            <span class="temp tempMin">
+                                {{day.tempMin|roundDegree}}&deg;
+                            </span>
+                        </div>
+                    </ng-container>
+
+
+                </div>
+
+                <button class="btn-moreInfo" (click)="onShow()">{{!showMoreInfo ? "Show" : "Hide"}} info</button>
+            </div>
+        </div>
+    </div>
+</div>

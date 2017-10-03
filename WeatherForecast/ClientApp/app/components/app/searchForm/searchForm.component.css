@@ -1,0 +1,247 @@
+﻿.cover {
+    background-color: rgba(239, 239, 239, 0.8);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5000;
+}
+
+.cityFoundForm {
+    position: absolute;
+    margin: 0 auto;
+    width: 300px;
+    text-align: center;
+    top: 30%;
+    left: 50%;
+    margin-left: -150px;
+}
+
+
+.results li {
+    list-style-type: none;
+    margin: 10px;
+}
+
+    .cityFoundForm ::-webkit-input-placeholder {
+        /* WebKit, Blink, Edge */
+        color: rgba(128, 128, 128, 0.2);
+    }
+
+    .cityFoundForm :-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: rgba(128, 128, 128, 0.2);
+        opacity: 1;
+    }
+
+    .cityFoundForm ::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: rgba(128, 128, 128, 0.2);
+        opacity: 1;
+    }
+
+    .cityFoundForm :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: rgba(128, 128, 128, 0.2);
+    }
+
+    .cityFoundForm input {
+        height: 36px;
+        width: 250px;
+        border-radius: 3px;
+        border: none;
+        background-color: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 24px;
+        padding: 5px;
+        border: 2px solid rgba(255, 106, 0, 0.35);
+        border-style: none none solid none;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        color: rgba(128, 128, 128, 0.86);
+        -webkit-transition: all 0.2s 0.02s ease;
+        transition: all 0.2s 0.02s ease;
+        opacity: 0.7;
+    }
+
+        .cityFoundForm input:focus {
+            outline: none;
+            /*background-color: #fccba8;*/
+            opacity: 1;
+        }
+
+        .cityFoundForm input:active {
+            opacity: 1;
+        }
+
+        .cityFoundForm input:hover {
+            opacity: 1;
+        }
+
+.closeButton {
+    position: absolute;
+    top: -30px;
+    left: 100%;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: 0px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #ffb078;
+    color: #fff;
+    -webkit-transition: all 0.2s 0.02s ease;
+    transition: all 0.2s 0.02s ease;
+    opacity: 0.4;
+}
+
+    .closeButton:focus {
+        outline: none;
+    }
+
+    .closeButton:hover {
+        background-color: #ffc59c;
+        opacity: 1;
+    }
+
+    .closeButton:active {
+        background-color: #d18855;
+    }
+
+.results {
+    padding: 0;
+    margin-left: 15px;
+    text-align:left;
+}
+
+    .results li {
+        list-style-type: none;
+        margin: 10px;
+    }
+
+    .results .searchResult {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #fff;
+        -webkit-transition: all 0.2s 0.02s ease;
+        transition: all 0.2s 0.02s ease;
+        position: relative;
+        border: 1px;
+        border-radius: 5px;
+        background-color: #fccba8;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        width: 250px;
+        padding: 10px;
+    }
+
+        .results .searchResult:hover {
+            background-color: #fcc196;
+            cursor: pointer;
+        }
+
+        .results .searchResult:active {
+            background-color: #fea769;
+        }
+
+    .results .menuDeg {
+        float: right;
+        margin-right: 35px;
+    }
+
+    .results img {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        top: 0px;
+        left: 83%;
+    }
+
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes pulsel {
+    50% {
+        background: #fec9a4;
+    }
+}
+
+@keyframes pulsel {
+    50% {
+        background: #fec9a4;
+    }
+}
+
+.loading {
+    position:absolute;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    border: 0.25rem solid rgba(255, 255, 255, 0.2);
+    border-top-color: white;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+}
+
+.loading--double {
+    border-style: double;
+    border-width: 0.5rem;
+}
+
+.loading-pulsel {
+    position: absolute;
+    top: 26px;
+    width: 6px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-animation: pulsel 750ms infinite;
+    animation: pulsel 750ms infinite;
+    -webkit-animation-delay: 250ms;
+    animation-delay: 250ms;
+}
+
+    .loading-pulsel:before, .loading-pulsel:after {
+        content: "";
+        position: absolute;
+        display: block;
+        height: 16px;
+        width: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        -webkit-animation: pulsel 750ms infinite;
+        animation: pulsel 750ms infinite;
+    }
+
+    .loading-pulsel:before {
+        left: -12px;
+    }
+
+    .loading-pulsel:after {
+        left: 12px;
+        -webkit-animation-delay: 500ms;
+        animation-delay: 500ms;
+    }

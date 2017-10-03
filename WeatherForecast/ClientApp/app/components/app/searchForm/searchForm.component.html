@@ -1,0 +1,23 @@
+﻿<div class="cover animated fadeIn" *ngIf="showForm">
+    <div class="cityFoundForm" >
+        <div class="animated slideInDown">
+            <button class="closeButton" (click)="onCloseForm()">X</button>
+            <br />
+            <input type="text" min="2" maxlength="20" (keyup.enter)="submit()" name="cityName" value="" placeholder="Enter city name" [ngModel]="cityName" (ngModelChange)="checkName($event)" />
+        </div>
+        <div [class]="endSearch?'loading-pulsel animated fadeIn':'loading-pulsel animated fadeOut'" *ngIf="serching" ></div>
+
+        <ul class="cityesMenu results animated">
+            <ng-container *ngFor="let city of foundCities">
+                <li class="animated slideInUp">
+                    <div class="searchResult" (click)="addNewCity(city)">
+                        <span>{{city.cityName}}, {{city.country}}</span>
+                        <img src="/img/weather/white/{{city.icon}}.png" alt="Alternate Text" />
+                        <span class="menuDeg">{{city.temp|roundDegree}}<sup>&deg;C</sup></span>
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+</div>
+

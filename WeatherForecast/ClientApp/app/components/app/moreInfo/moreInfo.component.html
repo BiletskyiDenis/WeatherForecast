@@ -1,0 +1,56 @@
+﻿<div class="row">
+    <div class="moreInfo animated fadeIn">
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Hourly weather</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Week weather</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">5 day hourly weather</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content infoTabs">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <chart [title]="'Hourly Temperature'"
+                           [subtitle]="' '"
+                           [yAxisTitle]="'Temperature (°C)'"
+                           [divContainer]="'chartDay'"
+                           [typeChart]="'CURRENT_DAY'"
+                           [selectedCity]="selectedCity"></chart>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+
+                    <chart [title]="'Daily Average Temperature'"
+                           [subtitle]="' '"
+                           [yAxisTitle]="'Temperature (°C)'"
+                           [divContainer]="'chartWeek'"
+                           [typeChart]="'CURRENT_WEEK'"
+                           [selectedCity]="selectedCity"></chart>
+                    <table>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    <table class="table">
+                        <ng-container *ngFor="let hour of selectedCity.daysOfHourly;let first = first;">
+                            <tr *ngIf="getTime(hour.dateTime)=='00:00'||first" class="active">
+                                <td colspan="6"><b>{{hour.dateTime|ddName|shortName}} {{hour.dateTime|mmName|shortName}} {{hour.dateTime|YY}}</b></td>
+                            </tr>
+                            <tr>
+                                <td>{{hour.dateTime|hhmm}}</td>
+                                <td><img src="/img/weather/color/{{hour.icon}}.png" alt="{{hour.description}}" /></td>
+                                <td>{{hour.temp|roundDegree}}<sup>&deg;C</sup></td>
+                                <td>{{hour.description}}</td>
+                                <td>{{hour.windSpeed}} m/s</td>
+                                <td>{{hour.pressure}} hpa</td>
+                            </tr>
+                        </ng-container>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

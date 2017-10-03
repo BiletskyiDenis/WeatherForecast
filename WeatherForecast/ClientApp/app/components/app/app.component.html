@@ -1,10 +1,28 @@
-<div class='container-fluid'>
-    <div class='row'>
-        <div class='col-sm-3'>
-            <nav-menu></nav-menu>
-        </div>
-        <div class='col-sm-9 body-content'>
-            <router-outlet></router-outlet>
+<div class='container'>
+    <div *ngIf="existsCities">
+        <div class="row" [class]="blurScreen?'row blur':'row'">
+            <city-menu (onSelected)="onClickMenuItem($event)" (onDeleteClick)="onDeleteCity($event)" *ngIf="cities!=null" [cities]="cities"></city-menu>
+            <div class="col-md-6 col-sm-12">
+                <weather-widget *ngIf="cities!=null&&selectedCity!=null&&showWeatherWidget"
+                                [cities]="cities"
+                                [selectedCity]="selectedCity"
+                                [showMoreInfo]="showMoreInfo"
+                                (onShowMoreInfo)="onShowMoreInfo()"
+                                (onSelected)="onClickMenuItem($event)"
+                                (onDeleteClick)="onDeleteCity($event)"></weather-widget>
+
+                <more-info *ngIf="showMoreInfo" [selectedCity]="selectedCity"></more-info>
+            </div>
+
+            <div class="col-md-2 hidden-sm hidden-xs"></div>
         </div>
     </div>
+    <searchForm [showForm]="showSearchForm" (onCloseFormEvent)="onCloseSearchForm()" (onClickSearchResultEvent)="onAddNewCity($event)"></searchForm>
+    <add-button (onClickButton)="onClickAddButton()" [center]="!existsCities" *ngIf="firstChek"></add-button>
+
 </div>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+

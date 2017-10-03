@@ -1,0 +1,132 @@
+﻿.cityesMenu {
+    float: right;
+    padding: 0;
+    margin-top: 25px;
+}
+
+    .cityesMenu li {
+        list-style-type: none;
+        margin: 10px;
+    }
+
+    .cityesMenu .menuButton {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #fff;
+        -webkit-transition: all 0.2s 0.02s ease;
+        transition: all 0.2s 0.02s ease;
+        position: relative;
+        border: 1px;
+        border-radius: 5px;
+        background-color: #01b0f1;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        width: 250px;
+        padding: 10px;
+    }
+
+        .cityesMenu .menuButton:hover {
+            background-color: #73d3f7;
+            cursor: pointer;
+        }
+
+        .cityesMenu .menuButton:active {
+            background-color: #02a2dd;
+        }
+
+    .cityesMenu .menuDeg {
+        float: right;
+        margin-right: 35px;
+    }
+
+    .cityesMenu img {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        top: 0px;
+        left: 83%;
+    }
+
+.disabled .menuButton {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    -webkit-transition: all 0.2s 0.02s ease;
+    transition: all 0.2s 0.02s ease;
+    position: relative;
+    border: 1px;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    width: 250px;
+    padding: 10px;
+}
+
+        .disabled .menuButton:hover {
+            background-color: #e2e2e2;
+            cursor: default;
+        }
+
+        .disabled .menuButton:active {
+            background-color: #e2e2e2;
+        }
+
+.deleteButton {
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    margin-left: -15px;
+    margin-top: -35px;
+    border-radius: 50%;
+    border: 0px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #FF6633;
+    color: #fff;
+    -webkit-transition: all 0.2s 0.02s ease;
+    transition: all 0.2s 0.02s ease;
+    z-index: 1000;
+}
+
+    .deleteButton:focus {
+        outline: none;
+    }
+
+    .deleteButton:hover {
+        background-color: #fca082;
+    }
+
+    .deleteButton:active {
+        background-color: #dc582c;
+    }
+
+.editButton {
+    position: absolute;
+    top: 40px;
+    left: -20px;
+    border: 0px;
+    width: 30px;
+    height: 30px;
+    background:url(/img/edit.png) no-repeat center center;
+    -webkit-transition: all 0.2s 0.02s ease;
+    transition: all 0.2s 0.02s ease;
+    opacity:0.15;
+}
+
+    .editButton:focus {
+        outline: none;
+    }
+
+    .editButton:hover {
+        opacity: 0.4;
+    }
+
+@media (max-width: 1200px) {
+    .editButton {
+        left: -70px;
+    }
+}
+
+.deleteState {
+    opacity: 0.4;
+}

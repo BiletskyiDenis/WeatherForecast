@@ -1,0 +1,191 @@
+﻿body {
+    background-color: #ededed;
+}
+
+.widgetRow {
+    position: relative;
+    z-index: 1000;
+}
+
+.wetherWitget {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    min-width: 320px;
+    background-color: #01b0f1;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px 5px 5px 0;
+    margin-top: 35px;
+    z-index: 500;
+}
+
+    .wetherWitget span {
+        font-size: 32px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        color: #fff;
+    }
+
+.cont {
+    padding: 10px;
+}
+
+.header {
+    height: 20%;
+}
+
+.centerImg {
+    height: 128px;
+    text-align: center;
+}
+
+    .centerImg img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -90px;
+    }
+
+.footer {
+    background-color: #ffffff;
+    height: 30%;
+    display: -webkit-box;
+    display: flex;
+    padding: 5px;
+    border-radius: 0 0 5px 0;
+}
+
+.dayOfWeek {
+    width: 14%;
+    margin-top: 8px;
+    display: inline-block;
+    border-left: 1px solid rgba(153, 153, 153, 0.2);
+    text-align: center;
+    margin-left: 3px;
+}
+
+    .dayOfWeek span {
+        font-size: 14px;
+        font-weight: normal;
+        color: #646464;
+    }
+
+    .dayOfWeek .temp {
+        font-size: 13px;
+        font-weight: normal;
+        color: #646464;
+    }
+
+    .dayOfWeek .tempMin {
+        font-size: 13px;
+        font-weight: normal;
+        color: rgba(100, 100, 100, 0.56);
+    }
+
+.currentDay {
+    width: 30%;
+    border: none;
+    margin: 0px;
+}
+
+    .currentDay .currentDeg {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    .currentDay .presure {
+        font-size: 12px;
+    }
+
+.currentDayDeg {
+    margin-top: 30px;
+    position: absolute;
+}
+
+    .currentDayDeg .currentDeg {
+        font-size: 50px;
+    }
+
+    .currentDayDeg span {
+        font-size: 24px;
+    }
+
+.currentDayPresure {
+    margin-top: 10px;
+}
+
+.dropDown {
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+}
+
+.btn-group {
+    z-index: 1000;
+}
+
+.dropDown:hover {
+    background-color: #0395cb;
+}
+
+.badge-span {
+    font-size: 16px !important;
+    float: right;
+}
+
+.dropdown-menu {
+    width: 200px;
+}
+
+    .dropdown-menu li {
+        font-size: 16px;
+    }
+
+.table-wiget {
+    text-align: left;
+    color: rgba(100, 100, 100, 0.56);
+    margin-top: -5px;
+}
+
+    .table-wiget td {
+        padding: 3px;
+    }
+
+.editMenu {
+    float: right;
+}
+
+    .editMenu .dropDown {
+        border: none;
+    }
+
+.deleteItem {
+    position: absolute;
+    left: -45px;
+    max-width: none;
+    min-width: 30px;
+    width: auto;
+}
+
+
+.menu {
+    max-width: 300px;
+    min-width: 250px;
+    width: 200px;
+    padding-right: 3px;
+}
+
+.sub .menuItem {
+    padding: 5px;
+    font-size: 16px;
+    color: #646464;
+    margin: 5px;
+}
+
+.sub > li {
+    padding: 5px;
+}
+
+    .sub > li:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
