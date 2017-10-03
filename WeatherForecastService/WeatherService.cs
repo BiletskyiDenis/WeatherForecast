@@ -268,7 +268,7 @@ namespace WeatherForecastService
 
             foreach (var city in cities)
             {
-                if ((DateTime.Now - city.UpateTime).TotalMinutes > updateInterval)
+                if (Math.Abs((DateTime.Now - city.UpateTime).TotalMinutes) > updateInterval)
                 {
                     UpdateCityData(city);
                     updated = true;
