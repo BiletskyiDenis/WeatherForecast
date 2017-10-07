@@ -1,7 +1,7 @@
-﻿import { Component, OnInit, Input,Output, EventEmitter } from "@angular/core"
-import { WeatherService } from "../services/weather.service"
-import { IChartData } from "../services/IForecast"
-import { ICityWeatherData } from "../services/IForecast"
+﻿import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { WeatherService } from "../services/weather.service";
+import { IChartData } from "../services/IForecast";
+import { ICityWeatherData } from "../services/IForecast";
 
 declare var Highcharts: any
 

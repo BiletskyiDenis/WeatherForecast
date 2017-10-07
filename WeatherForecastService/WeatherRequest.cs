@@ -58,7 +58,7 @@ namespace WeatherForecastService
         public override dynamic GetWeekData(int id)
         {
             
-            var url = ($"http://api.openweathermap.org/data/2.5/forecast/daily?id={id}&cnt=9&units=metric&appid={appid}");
+            var url = ($"http://api.openweathermap.org/data/2.5/forecast/daily?id={id}&cnt=7&units=metric&appid={appid}");
             return GetData(url).Result;
         }
 

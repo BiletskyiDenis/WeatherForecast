@@ -2,7 +2,6 @@
 import { IChartData } from "../services/IForecast";
 import { ICityWeatherData } from "../services/IForecast";
 import { ISearchResult } from "../services/IForecast";
-import { IWeekData } from "../services/IForecast";
 import { Http, Response, Headers } from "@angular/http";
 import 'rxjs/add/operator/map';
 
@@ -61,34 +60,26 @@ export class WeatherService {
     }
 
     getCahartWeekData(weatherData: ICityWeatherData): IChartData {
-        var data = this.getWeekData(weatherData);
+
+        var tempMax: number[] = [];
+        var tempMin: number[] = [];
         var xdata: string[] = [];
-        for (var i = 0; i < data.dateTime.length; i++) {
-            xdata.push(this.getDateTime(data.dateTime[i]).getDate().toString())
+
+        for (var i = 0; i < weatherData.daysOfWeek.length; i++) {
+            var data = weatherData.daysOfWeek[i];
+
+            xdata.push(this.getDateTime(data.dateTime).getDate().toString());
+            tempMax.push(Math.floor(data.temp));
+            tempMin.push(Math.floor(data.tempMin));
         }
 
         return {
             xdata: xdata,
             data: [
-                { marker: { symbol: 'square' }, data: data.tempMax, name: 'Max' },
-                { marker: { symbol: 'square' }, data: data.tempMin, name: 'Min' },
+                { marker: { symbol: 'square' }, data: tempMax, name: 'Max' },
+                { marker: { symbol: 'square' }, data: tempMin, name: 'Min' },
             ]
         }
-    }
-
-    getWeekForecast(weatherData: ICityWeatherData): any[] {
-        var data = this.getWeekData(weatherData);
-        var weekData: any[] = [];
-
-        for (var i = 0; i < data.dateTime.length; i++) {
-            weekData.push({ dateTime: data.dateTime[i], tempMax: data.tempMax[i], tempMin: data.tempMin[i], icon: data.icon[i] })
-        }
-
-        weekData[weekData.length - 1].tempMax += weekData[weekData.length - 2].tempMax;
-        weekData[weekData.length - 1].tempMax /= 2;
-        weekData[weekData.length - 1].icon = weekData[weekData.length - 1].icon.replace("n", "d");
-
-        return weekData;
     }
 
     getCahrtHourDailyData(weatherData: ICityWeatherData): IChartData {
@@ -108,36 +99,6 @@ export class WeatherService {
                 { marker: { symbol: 'square' }, data: temp, name: 'Temperature' },
             ]
         }
-    }
-
-    getWeekData(weatherData: ICityWeatherData): IWeekData {
-
-        var dateTime: number[] = [];
-        var tempMax: number[] = [];
-        var tempMin: number[] = [];
-        var pressure: number[] = [];
-        var humidity: number[] = [];
-        var icon: string[] = [];
-        var data: any;
-
-        for (var i = 0; i < weatherData.daysOfWeek.length; i++) {
-            var data = weatherData.daysOfWeek[i];
-
-            if (!this.checkLessDate(weatherData.currentDay.dateTime, data.dateTime)) {
-                continue;
-            }
-            dateTime.push(data.dateTime);
-            pressure.push(data.pressure);
-            icon.push(data.icon);
-            tempMax.push(Math.floor(data.temp));
-            tempMin.push(Math.floor(data.tempMin));
-            humidity.push(data.humidity);
-            if (dateTime.length == 7) {
-                break;
-            }
-        }
-
-        return { dateTime: dateTime, humidity: humidity, icon: icon, pressure: pressure, tempMax: tempMax, tempMin: tempMin }
     }
 
     getDay(dateTime: number): number {

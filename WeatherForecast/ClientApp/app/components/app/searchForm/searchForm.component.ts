@@ -1,5 +1,5 @@
-﻿import { Component, Input, Output, EventEmitter } from "@angular/core"
-import { WeatherService } from "../services/weather.service"
+﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { WeatherService } from "../services/weather.service";
 import { ISearchResult } from "../services/IForecast";
 
 @Component({

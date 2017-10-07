@@ -19,15 +19,6 @@ export interface ISearchResult {
     country: string;
 }
 
-export interface IWeekData {
-    tempMax: number[];
-    tempMin: number[];
-    pressure: number[];
-    humidity: number[];
-    icon: string[];
-    dateTime: number[];
-}
-
 export interface ICityWeatherData {
     cityWeatherId: number;
     cityName: string;

@@ -137,7 +137,6 @@ namespace WeatherForecastService
 
         public IEnumerable<City> GetAll()
         {
-
             this.cotext.Cities.Load();
             this.cotext.HourlyDaysWeathers.Load();
             this.cotext.CurrentDayWeathers.Load();

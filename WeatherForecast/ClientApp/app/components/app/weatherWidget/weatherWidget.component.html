@@ -61,8 +61,8 @@
                         </table>
                     </div>
 
-                    <ng-container *ngFor="let day of selectedCity.daysOfWeek; let i=index">
-                        <div class="dayOfWeek" *ngIf="checkDate(selectedCity.currentDay.dateTime, day.dateTime)&& i<7">
+                    <ng-container *ngFor="let day of selectedCity.daysOfWeek;">
+                        <div class="dayOfWeek">
                             <span>
                                 {{day.dateTime|ddName|shortName}}
                             </span>

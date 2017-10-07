@@ -1,6 +1,6 @@
-﻿import { Component, Input, Output, EventEmitter } from "@angular/core"
-import { ICityWeatherData } from "../services/IForecast"
-import { WeatherService } from "../services/weather.service"
+﻿import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { ICityWeatherData } from "../services/IForecast";
+import { WeatherService } from "../services/weather.service";
 
 @Component({
     selector: 'weather-widget',
@@ -9,11 +9,9 @@ import { WeatherService } from "../services/weather.service"
 })
 export class WeatherWidget {
 
-    @Input()
-    cities: ICityWeatherData[];
+    @Input() cities: ICityWeatherData[];
 
-    @Input()
-    showMoreInfo: boolean;
+    @Input() showMoreInfo: boolean;
 
     private _selectedCity: ICityWeatherData;
 
@@ -30,11 +28,6 @@ export class WeatherWidget {
     @Output() onDeleteClick = new EventEmitter<ICityWeatherData>();
 
     constructor(private weatherService: WeatherService) { }
-
-    checkDate(dateTime1: number, dateTime2: number): boolean {
-
-        return this.weatherService.checkLessDate(dateTime1, dateTime2);
-    }
 
     onShow(): void {
         
