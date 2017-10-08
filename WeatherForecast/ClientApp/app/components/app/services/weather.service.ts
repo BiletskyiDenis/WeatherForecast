@@ -113,16 +113,5 @@ export class WeatherService {
 
         return new Date(dateTime * 1000).toString().split(" ")[4].substring(0, 5);
     }
-
-    checkLessDate(dateTime1: number, dateTime2: number): boolean {
-        var day1 = new Date(dateTime1 * 1000).getDate();
-        var day2 = new Date(dateTime2 * 1000).getDate();
-
-        var month1 = new Date(dateTime1 * 1000).getMonth();
-        var month2 = new Date(dateTime2 * 1000).getMonth();
-
-        return (month1 == month2 && day1 <= day2);
-    }
-
 }
 
