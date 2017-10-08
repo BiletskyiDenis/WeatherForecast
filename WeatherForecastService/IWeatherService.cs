@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WeatherForecastData.Models;
 using WeatherForecastService.Models;
 
@@ -9,7 +10,7 @@ namespace WeatherForecastService
         void AddCity(int id);
         bool CheckForUpdate();
         void DeleteCity(int id);
-        void DropData();
+        void Dispose();
         IEnumerable<City> GetAll();
         CityBase GetCityBase(dynamic data);
         int GetCount();

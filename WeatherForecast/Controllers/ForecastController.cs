@@ -46,14 +46,6 @@ namespace WeatherForecast.Controllers
             return Ok();
         }
 
-
-        public IActionResult Drop()
-        {
-            service.DropData();
-
-            return Ok();
-        }
-
         public IActionResult GetAll()
         {
             return Json(service.GetAll());
@@ -91,6 +83,11 @@ namespace WeatherForecast.Controllers
         {
             service.DeleteCity(id);
             return Ok();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            service.Dispose();
         }
     }
 }

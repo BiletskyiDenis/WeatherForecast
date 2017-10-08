@@ -13,14 +13,14 @@ namespace WeatherForecastService
 {
     public class WeatherService : IWeatherService
     {
-        private readonly WeatherForecastContext cotext;
+        private readonly WeatherForecastContext context;
         private readonly string appid;
         private readonly WeatherBase weather;
         private readonly int updateInterval; //update interval (minutes)
 
         public WeatherService(WeatherForecastContext cotext, string appid, int interval)
         {
-            this.cotext = cotext;
+            this.context = cotext;
             this.weather = new CurrentWeather(appid);
             this.updateInterval = interval;
             this.appid = appid;
@@ -42,7 +42,6 @@ namespace WeatherForecastService
                 });
             }
             return searchResult;
-            //  return new DataContiner(GeCurrentDayWeather(data), GetCityBase(data));
         }
 
         public IEnumerable<HourlyDaysWeather> GetHourlyDayData(int id)
@@ -131,19 +130,18 @@ namespace WeatherForecastService
             var city = GetFullCityData(id);
             var user = GetSingleUser();
             city.UserData = user;
-            this.cotext.Cities.Add(city);
-            this.cotext.SaveChanges();
+            this.context.Cities.Add(city);
+            this.context.SaveChanges();
         }
 
         public IEnumerable<City> GetAll()
         {
-            this.cotext.Cities.Load();
-            this.cotext.HourlyDaysWeathers.Load();
-            this.cotext.CurrentDayWeathers.Load();
-            this.cotext.WeekWeather.Load();
-
             var user = GetSingleUser();
-            var cities = user.Cities;
+
+            var cities = this.context.Cities.Where(c => c.UserData == user)
+                .Include(c => c.CurrentDay)
+                .Include(c => c.DaysOfHourly)
+                .Include(c => c.DaysOfWeek).ToList();
 
             if (cities == null && cities.Count() == 0)
             {
@@ -159,21 +157,10 @@ namespace WeatherForecastService
             return cities;
         }
 
-        public void DropData()
-        {
-            var c = this.cotext.Cities;
-
-            foreach (var item in c)
-            {
-                this.cotext.Cities.Remove(item);
-            }
-            this.cotext.SaveChanges();
-        }
-
         public int GetCount()
         {
-            GetSingleUser();
-            var cities = this.cotext.Cities.Count();
+            var user = GetSingleUser();
+            var cities = this.context.Cities.Where(c => c.UserData == user).Count();
             return cities;
         }
 
@@ -200,7 +187,7 @@ namespace WeatherForecastService
 
         private UserData GetSingleUser()
         {
-            var users = this.cotext.UserDatas;
+            var users = this.context.UserDatas;
             if (users.Count() == 0)
             {
                 var usd = new UserData()
@@ -211,7 +198,7 @@ namespace WeatherForecastService
                 };
 
                 users.Add(usd);
-                this.cotext.SaveChanges();
+                this.context.SaveChanges();
             }
             return users.FirstOrDefault();
         }
@@ -225,45 +212,40 @@ namespace WeatherForecastService
         {
             var user = GetSingleUser();
             user.SelectedId = id;
-            cotext.Entry(user).State = EntityState.Modified;
-            cotext.SaveChanges();
+            context.Entry(user).State = EntityState.Modified;
+            context.SaveChanges();
         }
 
         public void DeleteCity(int id)
         {
-
             var user = GetSingleUser();
-            var cities = this.cotext.Cities;
-            var city = cities.Where(c => c.CityWeatherId == id).FirstOrDefault();
-
-
+            var city = this.context.Cities.Where(c => c.UserData == user&& c.CityWeatherId == id).FirstOrDefault();
             if (city == null)
                 return;
 
-            if (user.SelectedId == id && cities.Count() > 0)
+            if (user.SelectedId == id)
             {
-                user.SelectedId = cities.FirstOrDefault().CityWeatherId;
+                user.SelectedId = this.context.Cities.Where(c => c.UserData == user)
+                    .FirstOrDefault()
+                    .CityWeatherId;
             }
             else
             {
                 user.SelectedId = 0;
             }
 
-            // this.cotext.Cities.Remove(city);
-            this.cotext.Entry(city).State = EntityState.Deleted;
-            this.cotext.SaveChanges();
+            this.context.Entry(city).State = EntityState.Deleted;
+            this.context.SaveChanges();
         }
 
         public bool CheckForUpdate()
         {
-            this.cotext.Cities.Load();
-            this.cotext.HourlyDaysWeathers.Load();
-            this.cotext.CurrentDayWeathers.Load();
-            this.cotext.WeekWeather.Load();
-
             var updated = false;
             var user = GetSingleUser();
-            var cities = user.Cities;
+            var cities = this.context.Cities.Where(c => c.UserData == user)
+                .Include(c => c.CurrentDay)
+                .Include(c => c.DaysOfHourly)
+                .Include(c => c.DaysOfWeek);
 
             foreach (var city in cities)
             {
@@ -274,8 +256,8 @@ namespace WeatherForecastService
                 }
             }
 
-            cotext.Entry(user).State = EntityState.Modified;
-            cotext.SaveChanges();
+            context.Entry(user).State = EntityState.Modified;
+            context.SaveChanges();
             return updated;
         }
 
@@ -288,7 +270,7 @@ namespace WeatherForecastService
             city.DaysOfHourly = updateCity.DaysOfHourly;
             city.DaysOfWeek = updateCity.DaysOfWeek;
 
-            cotext.Entry(city).State = EntityState.Modified;
+            context.Entry(city).State = EntityState.Modified;
         }
 
         public CityBase GetCityBase(dynamic data)
@@ -299,6 +281,26 @@ namespace WeatherForecastService
                 CityName = data.name,
                 Country = data.sys.country
             };
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
