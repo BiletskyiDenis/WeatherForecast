@@ -11,42 +11,38 @@ export class WeatherService {
     constructor(private _http: Http) { }
 
     getCities() {
-        return this.httpPostM('/forecast/GetAll');
-    }
-
-    getAllData() {
-        return this.httpPostM('/forecast/GetFullData');
+        return this.httpPostM('/api/forecast/GetAll');
     }
 
     searchCity(name: string) {
-        return this.httpPostM('/forecast/Search', 'name=' + name);
+        return this.httpPostM('/api/forecast/Search', 'name=' + name);
     }
 
     addCity(data: ISearchResult) {
-        return this.httpPost('/forecast/AddCity', 'id=' + data.id + '&name=' + data.cityName);
+        return this.httpPost('/api/forecast/AddCity', 'id=' + data.id + '&name=' + data.cityName);
     }
 
     getCount() {
-        return this.httpPostM('/forecast/GetCount');
+        return this.httpPostM('/api/forecast/GetCount');
     }
 
     checkForUpdate() {
-        return this.httpPostM('/forecast/CheckForUpdate');
+        return this.httpPostM('/api/forecast/CheckForUpdate');
     }
 
     getSelectedId() {
-        return this.httpPostM('/forecast/GetSelectedId');
+        return this.httpPostM('/api/forecast/GetSelectedId');
     }
 
     setSelectedId(id: number) {
-        return this.httpPost('/forecast/SetSelectedId', 'id=' + id).subscribe(
+        return this.httpPost('/api/forecast/SetSelectedId', 'id=' + id).subscribe(
             data => { },
             error => alert(error)
         );
     }
 
     deleteCity(id: number) {
-        return this.httpPost('/forecast/DeleteCity', 'id=' + id);
+        return this.httpPost('/api/forecast/DeleteCity', 'id=' + id);
     }
 
     httpPost(url: string, params: string = '') {

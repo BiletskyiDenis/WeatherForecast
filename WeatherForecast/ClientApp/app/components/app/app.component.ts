@@ -58,7 +58,7 @@ export class AppComponent {
         if (!this.existsCities) {
             return;
         }
-        this.weatherService.getAllData().subscribe(
+        this.weatherService.getCities().subscribe(
             data => {
                 if (data.length > 0) {
                     this.cities = <ICityWeatherData[]>data;

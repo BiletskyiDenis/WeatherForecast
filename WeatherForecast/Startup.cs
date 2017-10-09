@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WeatherForecastData;
 using Microsoft.EntityFrameworkCore;
 using WeatherForecastService;
+using Microsoft.AspNetCore.Http;
 
 namespace WeatherForecast
 {

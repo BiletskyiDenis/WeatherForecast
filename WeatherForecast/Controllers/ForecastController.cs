@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace WeatherForecast.Controllers
 {
-
+    [Route("api/[controller]/[action]")]
     public class ForecastController : Controller
     {
         private readonly IWeatherService service;
@@ -56,11 +56,6 @@ namespace WeatherForecast.Controllers
             return Json(new { count = service.GetCount() });
         }
 
-        public IActionResult GetFullData()
-        {
-            return Json(service.GetAll());
-        }
-
         public IActionResult CheckForUpdate()
         {
             var updated = service.CheckForUpdate();
@@ -71,6 +66,7 @@ namespace WeatherForecast.Controllers
         {
             return Json(service.GetSelectedId());
         }
+
         [HttpPost]
         public IActionResult SetSelectedId(int id)
         {
