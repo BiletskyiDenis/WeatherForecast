@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeatherForecastData.Models;
 
-
 namespace WeatherForecastData
 {
     public class WeatherForecastContext : DbContext

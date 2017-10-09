@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WeatherForecastService;
-using WeatherForecastData.Models;
-using WeatherForecastService.Models;
-using Microsoft.ApplicationInsights.Extensibility.Implementation;
-using System.Text;
-using System.Runtime.Serialization.Json;
-using System.IO;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Options;
 
 namespace WeatherForecast.Controllers
 {
