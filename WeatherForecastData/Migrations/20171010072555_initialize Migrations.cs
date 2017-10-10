@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WeatherForecastData.Migrations
 {
-    public partial class initializemigrations : Migration
+    public partial class initializeMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

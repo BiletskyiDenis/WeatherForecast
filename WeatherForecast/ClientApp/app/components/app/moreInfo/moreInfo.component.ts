@@ -2,8 +2,6 @@
 import { ICityWeatherData } from "../services/IForecast";
 import { OnInit } from "@angular/core";
 
-declare var Highcharts: any;
-
 @Component({
     selector: 'more-info',
     templateUrl: './moreInfo.component.html',

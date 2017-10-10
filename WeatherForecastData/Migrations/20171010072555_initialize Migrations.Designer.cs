@@ -11,8 +11,8 @@ using WeatherForecastData;
 namespace WeatherForecastData.Migrations
 {
     [DbContext(typeof(WeatherForecastContext))]
-    [Migration("20171002065819_initialize migrations")]
-    partial class initializemigrations
+    [Migration("20171010072555_initialize Migrations")]
+    partial class initializeMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

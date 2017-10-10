@@ -14,7 +14,6 @@ namespace WeatherForecast
         private string _contentRootPath;
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
             _contentRootPath = env.ContentRootPath;
 
             var builder = new ConfigurationBuilder()
@@ -37,21 +36,22 @@ namespace WeatherForecast
                         Configuration.GetValue<int>("UpdateInterval")));
 
             //connect to remote server
-            var conn = Configuration.GetConnectionString("ConnectionStringServer");
+            // var conn = Configuration.GetConnectionString("ConnectionStringServer");
 
             //connect to LocalDB
             //var conn = Configuration.GetConnectionString("ConnectionStringLocalDB");
 
             //connect to LocalDB file (App_Data\Cities.mdf)
-            //var conn = Configuration.GetConnectionString("ConnectionStringLocalFileDB");
+            var conn = Configuration.GetConnectionString("ConnectionStringLocalFileDB");
 
             if (conn.Contains("%CONTENTROOTPATH%"))
             {
                 conn = conn.Replace("%CONTENTROOTPATH%", _contentRootPath);
             }
 
-            services.AddDbContext<WeatherForecastContext>(options
-                => options.UseSqlServer(conn));
+            //services.AddWeatherForecastService(Configuration);
+
+            services.AddDbContext<WeatherForecastContext>(options => options.UseSqlServer(conn));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

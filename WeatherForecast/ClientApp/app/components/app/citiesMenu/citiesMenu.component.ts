@@ -23,7 +23,6 @@ export class CitiesMenu {
     }
 
     onClick(city: ICityWeatherData): void {
-
         if (city.daysOfWeek != null) {
             this.onSelected.emit(city);
             this.weatherService.setSelectedId(city.cityWeatherId)
