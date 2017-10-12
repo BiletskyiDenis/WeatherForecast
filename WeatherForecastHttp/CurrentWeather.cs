@@ -1,29 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherForecastService
+namespace WeatherForecastHttp
 {
-    public abstract class WeatherBase
-    {
-        protected string appid;
-
-        public abstract dynamic GetWeatherDataByName(string name);
-        public abstract dynamic GetWeatherDataById(int id);
-        public abstract dynamic GetForecastDataById(int id);
-        public abstract dynamic GetWeekData(int id);
-        public abstract dynamic GetSearchResult(string name);
-
-
-        public WeatherBase(string appid)
-        {
-            this.appid = appid;
-        }
-    }
-
-    public class CurrentWeather : WeatherBase
+    public class CurrentWeather : HttpWeather
     {
         public override dynamic GetForecastDataById(int id)
         {
@@ -57,7 +38,7 @@ namespace WeatherForecastService
 
         public override dynamic GetWeekData(int id)
         {
-            
+
             var url = ($"http://api.openweathermap.org/data/2.5/forecast/daily?id={id}&cnt=7&units=metric&appid={appid}");
             return GetData(url).Result;
         }

@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using WeatherForecastData;
 using Microsoft.EntityFrameworkCore;
 using WeatherForecastService;
+using System;
+using WeatherForecastService.Models;
 
 namespace WeatherForecast
 {
@@ -18,8 +20,11 @@ namespace WeatherForecast
 
             var builder = new ConfigurationBuilder()
                   .SetBasePath(_contentRootPath)
-                  .AddJsonFile("appsettings.json")
-                  .AddJsonFile("apisettings.json");
+                  .AddJsonFile("appsettings.json");
+            if (env.IsDevelopment())
+            {
+                builder.AddJsonFile("appsettings.Development.json");
+            }
             Configuration = builder.Build();
 
         }
@@ -29,29 +34,32 @@ namespace WeatherForecast
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddScoped<IWeatherService, WeatherService>(provider =>
-                        new WeatherService(provider.GetService<WeatherForecastContext>(),
-                        Configuration["Appid"],
-                        Configuration.GetValue<int>("UpdateInterval")));
+            var appid = Configuration["Appid"];
+            var updateInterval = Configuration.GetValue<int>("UpdateInterval");
 
-            //connect to remote server
-            // var conn = Configuration.GetConnectionString("ConnectionStringServer");
+            services.AddOptions();
+            services.Configure<WeatherServiceSettings>(Configuration.GetSection("WeatherServiceSettings"));
 
-            //connect to LocalDB
-            //var conn = Configuration.GetConnectionString("ConnectionStringLocalDB");
-
-            //connect to LocalDB file (App_Data\Cities.mdf)
-            var conn = Configuration.GetConnectionString("ConnectionStringLocalFileDB");
+            var conn = Configuration.GetConnectionString("WeatherForecastDb");
 
             if (conn.Contains("%CONTENTROOTPATH%"))
             {
                 conn = conn.Replace("%CONTENTROOTPATH%", _contentRootPath);
             }
 
-            //services.AddWeatherForecastService(Configuration);
-
             services.AddDbContext<WeatherForecastContext>(options => options.UseSqlServer(conn));
+
+            services.AddScoped<IWeatherService, WeatherService>();
+
+            var config = new AutoMapper.MapperConfiguration(c =>
+              {
+                  c.AddProfile(new ApplicationProfile());
+              });
+            var mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

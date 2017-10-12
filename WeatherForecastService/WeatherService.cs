@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherForecastData;
 using WeatherForecastData.Models;
+using WeatherForecastHttp;
 using WeatherForecastService.Models;
 
 namespace WeatherForecastService
@@ -15,15 +17,15 @@ namespace WeatherForecastService
     {
         private readonly WeatherForecastContext context;
         private readonly string appid;
-        private readonly WeatherBase weather;
+        private readonly HttpWeather weather;
         private readonly int updateInterval; //update interval (minutes)
 
-        public WeatherService(WeatherForecastContext cotext, string appid, int interval)
+        public WeatherService(WeatherForecastContext cotext, IOptions<WeatherServiceSettings> settings)
         {
             this.context = cotext;
             this.weather = new CurrentWeather(appid);
-            this.updateInterval = interval;
-            this.appid = appid;
+            this.updateInterval = settings.Value.UpdateInterval;
+            this.appid = settings.Value.Appid;
         }
 
         public IEnumerable<SearchResult> Search(string name)
