@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WeatherForecastService.Models
+namespace WeatherForecastHttp.Models
 {
     public class CityBase
     {

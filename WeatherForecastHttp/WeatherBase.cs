@@ -4,7 +4,6 @@
     {
         protected string appid;
 
-        public abstract dynamic GetWeatherDataByName(string name);
         public abstract dynamic GetWeatherDataById(int id);
         public abstract dynamic GetForecastDataById(int id);
         public abstract dynamic GetWeekData(int id);

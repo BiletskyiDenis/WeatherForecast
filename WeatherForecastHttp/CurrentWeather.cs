@@ -19,16 +19,10 @@ namespace WeatherForecastHttp
             return GetData(url).Result;
         }
 
-        public override dynamic GetWeatherDataByName(string name)
-        {
-            var url = ($"http://api.openweathermap.org/data/2.5/weather?q={name}&mode=json&units=metric&appid={appid}");
-            return GetData(url).Result;
-        }
         public CurrentWeather(string appid) : base(appid)
         {
 
         }
-
 
         public override dynamic GetSearchResult(string name)
         {

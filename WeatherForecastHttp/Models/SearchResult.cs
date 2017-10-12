@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WeatherForecastService.Models
+namespace WeatherForecastHttp.Models
 {
-    public class SearchResult
+   public class SearchResult
     {
         public int Id { get; set; }
         public string CityName { get; set; }
@@ -12,4 +12,5 @@ namespace WeatherForecastService.Models
         public string Icon { get; set; }
         public float Temp { get; set; }
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using WeatherForecastData;
 using WeatherForecastData.Models;
 using WeatherForecastHttp;
+using WeatherForecastHttp.Models;
 using WeatherForecastService.Models;
 
 namespace WeatherForecastService
@@ -16,120 +18,32 @@ namespace WeatherForecastService
     public class WeatherService : IWeatherService
     {
         private readonly WeatherForecastContext context;
-        private readonly string appid;
-        private readonly HttpWeather weather;
+        private readonly IMapper mapper;
+        private readonly HttpDataService httpDataService;
         private readonly int updateInterval; //update interval (minutes)
 
         public WeatherService(WeatherForecastContext cotext, IOptions<WeatherServiceSettings> settings)
         {
             this.context = cotext;
-            this.weather = new CurrentWeather(appid);
+            this.httpDataService = new HttpDataService(settings.Value.Appid);
             this.updateInterval = settings.Value.UpdateInterval;
-            this.appid = settings.Value.Appid;
+
+            var config = new AutoMapper.MapperConfiguration(c =>
+            {
+                c.AddProfile(new ApplicationProfile());
+            });
+            mapper = config.CreateMapper();
         }
 
         public IEnumerable<SearchResult> Search(string name)
         {
-            var searchResult = new List<SearchResult>();
-            var data = weather.GetSearchResult(name);
-            foreach (var item in data.list)
-            {
-                searchResult.Add(new SearchResult()
-                {
-                    CityName = item.name,
-                    Country = item.sys.country,
-                    Icon = item.weather[0].icon,
-                    Id = item.id,
-                    Temp = item.main.temp
-                });
-            }
-            return searchResult;
-        }
-
-        public IEnumerable<HourlyDaysWeather> GetHourlyDayData(int id)
-        {
-            var data = weather.GetForecastDataById(id);
-
-            var list = new List<HourlyDaysWeather>();
-
-            foreach (var item in data.list)
-            {
-                var weatherData = new HourlyDaysWeather()
-                {
-                    InnerWeatherId = item.weather[0].id,
-                    Main = item.weather[0].main,
-                    Description = item.weather[0].description,
-                    Icon = item.weather[0].icon,
-                    Temp = item.main.temp,
-                    TempMax = item.main.temp_max,
-                    TempMin = item.main.temp_min,
-                    Pressure = item.main.pressure,
-                    Humidity = item.main.humidity,
-                    DateTime = item.dt,
-                    WindDeg = item.wind.deg,
-                    WindSpeed = item.wind.speed
-                };
-                list.Add(weatherData);
-            }
-
-            return list;
-        }
-
-        public City GetFullCityData(int id)
-        {
-            var data = weather.GetWeatherDataById(id);
-            var baseInfo = GetCityBase(data);
-            var currentDayInfo = GeCurrentDayWeather(data);
-            var hourlyDayInfo = GetHourlyDayData(id);
-            var weekInfo = GetWeekData(id);
-
-
-            var city = new City();
-            return new City()
-            {
-                CityWeatherId = id,
-                DaysOfHourly = hourlyDayInfo,
-                CurrentDay = currentDayInfo,
-                DaysOfWeek = weekInfo,
-                CityName = baseInfo.CityName,
-                Country = baseInfo.Country,
-                UpateTime = DateTime.Now
-            };
-        }
-
-        private IEnumerable<WeekWeather> GetWeekData(int id)
-        {
-            var data = weather.GetWeekData(id);
-            var list = new List<WeekWeather>();
-
-            foreach (var day in data.list)
-            {
-                list.Add(new WeekWeather()
-                {
-                    DateTime = day.dt,
-                    Description = day.weather[0].description,
-                    Main = day.weather[0].main,
-                    InnerWeatherId = day.weather[0].id,
-                    Icon = day.weather[0].icon,
-                    Humidity = day.humidity,
-                    Pressure = day.pressure,
-                    Temp = day.temp.day,
-                    TempMax = day.temp.max,
-                    TempMin = day.temp.min,
-                    TempEve = day.temp.eve,
-                    TempMorn = day.temp.morn,
-                    TempNight = day.temp.night,
-                    WindDeg = day.deg,
-                    WindSpeed = day.speed
-                });
-            }
-
-            return list;
+            return httpDataService.Search(name);
         }
 
         public void AddCity(int id)
         {
-            var city = GetFullCityData(id);
+            var cityDto = httpDataService.GetFullCityData(id);
+            var city=mapper.Map<City>(cityDto);
             var user = GetSingleUser();
             city.UserData = user;
             this.context.Cities.Add(city);
@@ -164,27 +78,6 @@ namespace WeatherForecastService
             var user = GetSingleUser();
             var cities = this.context.Cities.Where(c => c.UserData == user).Count();
             return cities;
-        }
-
-        private CurrentDayWeather GeCurrentDayWeather(dynamic data)
-        {
-            return new CurrentDayWeather()
-            {
-                Icon = data.weather[0].icon,
-                Temp = data.main.temp,
-                TempMax = data.main.temp_max,
-                TempMin = data.main.temp_min,
-                Pressure = data.main.pressure,
-                Humidity = data.main.humidity,
-                Main = data.weather[0].main,
-                DateTime = data.dt,
-                Sunrise = data.sys.sunrise,
-                Sunset = data.sys.sunset,
-                Description = data.weather[0].description,
-                InnerWeatherId = data.weather[0].id,
-                WindDeg = data.wind.deg,
-                WindSpeed = data.wind.speed
-            };
         }
 
         private UserData GetSingleUser()
@@ -265,25 +158,16 @@ namespace WeatherForecastService
 
         private void UpdateCityData(City city)
         {
-            var updateCity = GetFullCityData(city.CityWeatherId);
+            var updateCity = httpDataService.GetFullCityData(city.CityWeatherId);
             city.UpateTime = DateTime.Now;
 
-            city.CurrentDay = updateCity.CurrentDay;
-            city.DaysOfHourly = updateCity.DaysOfHourly;
-            city.DaysOfWeek = updateCity.DaysOfWeek;
+            city.CurrentDay = mapper.Map<CurrentDayWeather>(updateCity.CurrentDay);
+            city.DaysOfHourly = mapper.Map<IEnumerable<HourlyDaysWeather>>(updateCity.DaysOfHourly);
+            city.DaysOfWeek = mapper.Map<IEnumerable<WeekWeather>>(updateCity.DaysOfWeek);
 
             context.Entry(city).State = EntityState.Modified;
         }
 
-        public CityBase GetCityBase(dynamic data)
-        {
-            return new CityBase()
-            {
-                CityWeatherId = data.id,
-                CityName = data.name,
-                Country = data.sys.country
-            };
-        }
 
         private bool disposed = false;
 
