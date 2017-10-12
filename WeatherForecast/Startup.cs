@@ -34,9 +34,6 @@ namespace WeatherForecast
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var appid = Configuration["Appid"];
-            var updateInterval = Configuration.GetValue<int>("UpdateInterval");
-
             services.AddOptions();
             services.Configure<WeatherServiceSettings>(Configuration.GetSection("WeatherServiceSettings"));
 
